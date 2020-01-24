@@ -1,9 +1,10 @@
 package reciever
 
 import (
-	"github.com/mrKitikat/SmsReciever/src/app/models"
 	"encoding/json"
 	"log"
+
+	"github.com/mrKitikat/SmsReciever/src/app/models"
 )
 
 func failOnError(err error, msg string) {
@@ -23,7 +24,7 @@ func (r *Reciever) runConsumer(nameQueue string) {
 		nameQueue, // name
 		false,     // durable
 		false,     // delete when unused
-		false,      // exclusive
+		false,     // exclusive
 		false,     // no-wait
 		nil,       // arguments
 	)
@@ -50,10 +51,11 @@ func (r *Reciever) runConsumer(nameQueue string) {
 				log.Println("Consumer decode json error: ", err)
 			}
 			log.Printf(" [x] %v", sms)
+			// IF COMMIT SUCCES -> delete from queene
 			d.Ack(false)
 			// PUT in DB:
 			// Create tx
-			// IF COMMIT SUCCES -> delete from queene
+
 		}
 	}()
 

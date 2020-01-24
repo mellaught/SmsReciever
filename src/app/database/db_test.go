@@ -1,10 +1,11 @@
 package db
 
 import (
-	"github.com/mrKitikat/SmsReciever/src/app/models"
 	"database/sql"
 	"math/rand"
 	"testing"
+
+	"github.com/mrKitikat/SmsReciever/src/app/models"
 )
 
 var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
@@ -18,7 +19,7 @@ func generateRandomString(length int) string {
 }
 
 func TestPutSMS(t *testing.T) {
-	dbsql, err := sql.Open(dbSourceName)
+	dbsql, err := sql.Open("postgres", dbSourceName)
 	if err != nil {
 		t.Fatal(err)
 	}
