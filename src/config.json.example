@@ -1,0 +1,20 @@
+{
+    "name": "SMS reciever into PostgreSQL",
+    "database": {
+      "driver": "postgres",
+      "name": "",
+      "user": "",
+      "password": ""
+    },
+    "amqp": {
+      "queue_name": "",
+      "user": "",
+      "password": "",
+      "host": "localhost",
+      "port": "5672"
+    },
+    "server": {
+      "host": "localhost",
+      "port": "8000"
+    }
+  }
