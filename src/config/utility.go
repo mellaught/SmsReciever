@@ -1,7 +1,7 @@
 package config
 
 import (
-	"TestJunSMS/src/app/models"
+	"github.com/mrKitikat/SmsReciever/src/app/models"
 )
 
 // Reads AMQP params from config.json

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"TestJunSMS/src/app"
-	"TestJunSMS/src/config"
+	"github.com/mrKitikat/SmsReciever/src/app"
+	"github.com/mrKitikat/SmsReciever/src/config"
 	"database/sql"
 	"fmt"
 	"log"

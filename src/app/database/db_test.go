@@ -1,7 +1,7 @@
 package db
 
 import (
-	"TestJunSMS/src/app/models"
+	"github.com/mrKitikat/SmsReciever/src/app/models"
 	"database/sql"
 	"math/rand"
 	"testing"

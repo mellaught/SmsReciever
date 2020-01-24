@@ -1,7 +1,7 @@
 package reciever
 
 import (
-	"TestJunSMS/src/app/handler"
+	"github.com/mrKitikat/SmsReciever/src/app/handler"
 	"bytes"
 	"fmt"
 	"net/http"
