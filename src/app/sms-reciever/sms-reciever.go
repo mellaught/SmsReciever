@@ -1,7 +1,7 @@
 package reciever
 
 import (
-	"github.com/mrKitikat/SmsReciever/src/app/handler"
+	"github.com/mellaught/SmsReciever/src/app/handler"
 	"bytes"
 	"fmt"
 	"net/http"

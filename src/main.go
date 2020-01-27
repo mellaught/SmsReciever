@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/mrKitikat/SmsReciever/src/app"
-	"github.com/mrKitikat/SmsReciever/src/config"
+	"github.com/mellaught/SmsReciever/src/app"
+	"github.com/mellaught/SmsReciever/src/config"
 	"database/sql"
 	"fmt"
 	"log"
@@ -19,7 +19,8 @@ func main() {
 	dbConfig := cfg.ReadDBConfig()
 	amqpConfig := cfg.ReadAMQPConfig()
 
-	// Set DataBase
+	// Set DataBase 
+	
 	dataSourseName := "user=" + dbConfig.DBUser + " " + "DBname=" + dbConfig.DBName + " " + "password=" + dbConfig.DBPassword + " " + "sslmode=disable"
 	db, err := sql.Open(dbConfig.DBDriver, dataSourseName)
 	if err != nil {

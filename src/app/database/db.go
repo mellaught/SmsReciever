@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/mrKitikat/SmsReciever/src/app/models"
+	"github.com/mellaught/SmsReciever/src/app/models"
 	"database/sql"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres"

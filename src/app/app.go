@@ -1,7 +1,7 @@
 package app
 
 import (
-	reciever "TestJunSMS/src/app/sms-reciever"
+	reciever "github.com/mellaught/SmsReciever/src/app/sms-reciever"
 	"database/sql"
 	"log"
 	"net/http"

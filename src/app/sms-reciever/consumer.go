@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"log"
 
-	"github.com/mrKitikat/SmsReciever/src/app/models"
+	"github.com/mellaught/SmsReciever/src/app/models"
 )
 
 func failOnError(err error, msg string) {
