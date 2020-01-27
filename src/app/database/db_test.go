@@ -41,7 +41,7 @@ func TestPutSMS(t *testing.T) {
 	}
 
 	db, err := InitDB(dbsql)
-	if err != nil {
+	if err != nil || dbsql == nil {
 		t.Fatal(err)
 	}
 
@@ -49,6 +49,17 @@ func TestPutSMS(t *testing.T) {
 		sms := &models.SMSReq{
 			Phone: generateRandomPhone(),
 			Text:  generateRandomMessage(100),
+		}
+
+		if i == 5 {
+			sms := &models.SMSReq{
+				Phone: generateRandomPhone(),
+				Text:  generateRandomMessage(1000),
+			}
+			err = db.PutSMS(sms)
+			if err == nil {
+				t.Fatalf("Put error: %v", err)
+			}
 		}
 
 		err = db.PutSMS(sms)

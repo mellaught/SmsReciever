@@ -56,7 +56,7 @@ func (c *Reciever) PutSMS(w http.ResponseWriter, r *http.Request) {
 	smsBody := buffer.Bytes()
 	// Put new sms into channel
 	c.smsChan <- smsBody
-	handler.ResponJSON(w, http.StatusOK, "Add to worker!")
+	handler.ResponJSON(w, http.StatusOK, "Add to queue!")
 	return
 }
 
