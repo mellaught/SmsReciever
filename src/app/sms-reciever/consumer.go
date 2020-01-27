@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"regexp"
 
 	"github.com/mellaught/SmsReciever/src/app/models"
 )
@@ -66,4 +67,20 @@ func (r *Reciever) runConsumer(nameQueue string) {
 
 	log.Printf(" [*] Waiting for logs. To exit press CTRL+C - Consumer")
 	<-forever
+}
+
+// Check sms: phone number and message text.
+// Lenght and corrent phone with regular expression.
+func checkSMS(sms *models.SMSReq) bool {
+	matchPhone := regexp.MustCompile(`79\d{2}\d{7}`)
+	if len(sms.Text) > 254 {
+		fmt.Println(len(sms.Text))
+		return true
+	}
+	if len(sms.Phone) < 11 || len(sms.Phone) > 12 {
+		fmt.Println(len(sms.Text))
+		return false
+	}
+
+	return matchPhone.Match([]byte(sms.Phone))
 }

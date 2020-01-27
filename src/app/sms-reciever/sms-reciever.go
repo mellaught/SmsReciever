@@ -59,7 +59,3 @@ func (c *Reciever) PutSMS(w http.ResponseWriter, r *http.Request) {
 	handler.ResponJSON(w, http.StatusOK, "Add to queue!")
 	return
 }
-
-func (c *Reciever) PutInDB() {
-
-}
