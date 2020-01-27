@@ -2,6 +2,7 @@ package reciever
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/mellaught/SmsReciever/src/app/models"
@@ -45,17 +46,21 @@ func (r *Reciever) runConsumer(nameQueue string) {
 
 	go func() {
 		for d := range msgs {
-			sms := models.SMSReq{}
-			err := json.Unmarshal(d.Body, &sms)
+			sms := &models.SMSReq{}
+			err := json.Unmarshal(d.Body, sms)
 			if err != nil {
 				log.Println("Consumer decode json error: ", err)
 			}
 			log.Printf(" [x] %v", sms)
-			// IF COMMIT SUCCES -> delete from queene
-			d.Ack(false)
 			// PUT in DB:
-			// Create tx
-
+			err = r.DB.PutSMS(sms)
+			// IF COMMIT SUCCES -> delete from queene
+			if err != nil {
+				fmt.Println("PUT ERROR:", err)
+				d.Ack(true)
+				continue
+			}
+			d.Ack(false)
 		}
 	}()
 

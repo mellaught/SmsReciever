@@ -14,6 +14,7 @@ import (
 func main() {
 
 	cfg := config.NewViperConfig()
+	
 	// Read config.json
 	serverConfig := cfg.ReadServerConfig()
 	dbConfig := cfg.ReadDBConfig()

@@ -3,7 +3,6 @@ package reciever
 import (
 	"bytes"
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -26,7 +25,7 @@ func NewReciever(conn *amqp.Connection, name string, dbsql *sql.DB) *Reciever {
 		smsChan:   make(chan []byte, 0),
 		queueName: name,
 		conn:      conn,
-		DB:    		&db.DataBase{},
+		DB:        &db.DataBase{},
 	}
 
 	db, err := db.InitDB(dbsql)
@@ -51,15 +50,12 @@ func (r *Reciever) Run() {
 
 // Send request to worker.
 func (c *Reciever) PutSMS(w http.ResponseWriter, r *http.Request) {
-
+	// Decode request
 	buffer := new(bytes.Buffer)
 	buffer.ReadFrom(r.Body)
 	smsBody := buffer.Bytes()
-
-	fmt.Println("Start put")
 	// Put new sms into channel
 	c.smsChan <- smsBody
-	fmt.Println("Put")
 	handler.ResponJSON(w, http.StatusOK, "Add to worker!")
 	return
 }

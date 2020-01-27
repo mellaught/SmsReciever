@@ -1,10 +1,11 @@
 package app
 
 import (
-	reciever "github.com/mellaught/SmsReciever/src/app/sms-reciever"
 	"database/sql"
 	"log"
 	"net/http"
+
+	reciever "github.com/mellaught/SmsReciever/src/app/sms-reciever"
 
 	"github.com/gorilla/mux"
 	"github.com/streadway/amqp"
@@ -20,7 +21,7 @@ func NewApp(dbsql *sql.DB, conn *amqp.Connection, name string) *App {
 
 	a := App{
 		Router: mux.NewRouter(),
-		Rcvr:   reciever.NewReciever(conn, name),
+		Rcvr:   reciever.NewReciever(conn, name, dbsql),
 	}
 
 	a.Router = mux.NewRouter()
