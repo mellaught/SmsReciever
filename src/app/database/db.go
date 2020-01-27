@@ -1,8 +1,11 @@
 package db
 
 import (
-	"github.com/mellaught/SmsReciever/src/app/models"
 	"database/sql"
+	"fmt"
+	"log"
+
+	"github.com/mellaught/SmsReciever/src/app/models"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -29,10 +32,41 @@ func InitDB(db *sql.DB) (*DataBase, error) {
 
 // PutSMS puts new user's bitcoin address.
 func (d *DataBase) PutSMS(sms *models.SMSReq) error {
-	_, err := d.DB.Exec("INSERT INTO SMS(phone, text)  VALUES ($1, $2)", sms.Phone, sms.Text)
+	tx, err := d.DB.Begin()
 	if err != nil {
 		return err
 	}
+	commitTx := false
+	defer CloseTransaction(tx, &commitTx)
 
+	stmt, err := tx.Prepare("INSERT INTO SMS(phone, text)  VALUES ($1, $2)")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	
+	res, err := stmt.Exec(sms.Phone, sms.Text)
+	if err != nil {
+		return err
+	}
+	fmt.Println(res)
+
+	commitTx = true
 	return nil
+}
+
+// IF success -> commit and return result.
+// ELSE -> rollbaback.
+func CloseTransaction(tx *sql.Tx, commit *bool) {
+	if *commit {
+		log.Println("Commit sql transaction")
+		if err := tx.Commit(); err != nil {
+			log.Panic(err)
+		}
+	} else {
+		log.Println("Rollback sql transcation")
+		if err := tx.Rollback(); err != nil {
+			log.Panic(err)
+		}
+	}
 }
