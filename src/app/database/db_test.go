@@ -8,9 +8,13 @@ import (
 	"github.com/mellaught/SmsReciever/src/app/models"
 )
 
-var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+var (
+	letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	first   = []rune("+7")
+	numbers = []rune("100123456789")
+)
 
-func generateRandomString(length int) string {
+func generateRandomMessage(length int) string {
 	b := make([]rune, length)
 	for i := range b {
 		b[i] = letters[rand.Intn(len(letters))]
@@ -18,6 +22,18 @@ func generateRandomString(length int) string {
 	return string(b)
 }
 
+func generateRandomPhone() string {
+	b := make([]rune, 12)
+	for i := range b {
+		b[i] = numbers[rand.Intn(len(numbers))]
+	}
+	b[0], b[1] = first[0], first[1]
+
+	return string(b)
+}
+
+// Test for DataBase method PutSMS.
+// Result: Success: Tests passed.
 func TestPutSMS(t *testing.T) {
 	dbsql, err := sql.Open("postgres", dbSourceName)
 	if err != nil {
@@ -31,8 +47,8 @@ func TestPutSMS(t *testing.T) {
 
 	for i := 0; i < 20; i++ {
 		sms := &models.SMSReq{
-			Phone: generateRandomString(11),
-			Text:  generateRandomString(100),
+			Phone: generateRandomPhone(),
+			Text:  generateRandomMessage(100),
 		}
 
 		err = db.PutSMS(sms)

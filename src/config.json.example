@@ -1,5 +1,5 @@
 {
-    "name": "SMS reciever into PostgreSQL",
+    "name": "SMS reciever",
     "database": {
       "driver": "postgres",
       "name": "",
