@@ -25,12 +25,12 @@ Stack: Golang, PostgreSQL, RabbitMQ. Without framework for db(task condition).
 Example config in `config.json.example`.
 ```
 {
-	"name": "SMS reciever",
-	"database": {
-     "driver": "postgres",
-     "name": "",
-     "user": "",
-     "password": ""
+     "name": "SMS reciever",
+     "database": {
+       "driver": "postgres",
+       "name": "",
+       "user": "",
+       "password": ""
     },
     "amqp": {
       "queue_name": "",
