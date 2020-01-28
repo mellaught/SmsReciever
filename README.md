@@ -1,4 +1,5 @@
 
+
 # Sms Reciever.
 
  
@@ -83,11 +84,32 @@ Put sms into database use RabbitMQ as queue.
 *Body:*
 ```
 {
-	"text": "Add to queue!"
+	"text": "Add to database!"
+}
+```
+`1. StatusCode = 400:`
+
+`1.1 Body:` *IF telephone number is incorrenct.*
+```
+{
+	"text": "Please, check your telephone number."
+}
+```
+`1.2 Body:` *IF lenght of sms' text is too long or equals zero.*
+```
+{
+	"text": "Please, check your sms text. Max lenght equals 255 symbols."
+}
+```
+`1.3 Body:` *Unmarshal request has failed*
+```
+{
+	"text": "err.Error()"
 }
 ```
 
+
 ## TODO
 -  [x] Put sms' into database.
--  [x] **Tests** for datebase methods.
+-  [x] **Tests** for database methods.
 -  [ ] **Other Tests** .
