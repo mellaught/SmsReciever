@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strings"
 
 	db "github.com/mellaught/SmsReciever/src/app/database"
 
@@ -54,12 +55,12 @@ func InitConsumer(dbsql *sql.DB, conn *amqp.Connection, queue string) *Consumer 
 		nil,   // arguments
 	)
 	failOnError(err, "Failed to declare a queue - Consumer")
-
 	c.queue = &q
 
 	return c
 }
 
+// Run consumer.
 func (c *Consumer) Run() {
 
 	msgs, err := c.ch.Consume(
@@ -88,6 +89,11 @@ func (c *Consumer) Run() {
 			err = c.DB.PutSMS(sms)
 			if err != nil {
 				fmt.Println("PUT ERROR:", err)
+				if strings.Contains(err.Error(), "не умещается") {
+					// Delete from queue.
+					d.Ack(false)
+					continue
+				}
 				// Put into queue again.
 				d.Nack(false, true)
 				continue

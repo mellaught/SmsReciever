@@ -46,12 +46,14 @@ func NewReciever(dbsql *sql.DB, conn *amqp.Connection, queue string) *Reciever {
 func (c *Reciever) PutSMS(w http.ResponseWriter, r *http.Request) {
 	// Decode request for check: telephone number && text lenght.
 	sms := &models.SMSReq{}
+	resp := models.SMSResp{}
 	buffer := new(bytes.Buffer)
 	buffer.ReadFrom(r.Body)
 	smsBytes := buffer.Bytes()
 	err := json.Unmarshal(smsBytes, sms)
 	if err != nil {
-		handler.ResponJSON(w, http.StatusBadRequest, err.Error())
+		resp.Text = err.Error()
+		handler.ResponJSON(w, http.StatusBadRequest, resp)
 		return
 	}
 	defer r.Body.Close()
@@ -60,27 +62,31 @@ func (c *Reciever) PutSMS(w http.ResponseWriter, r *http.Request) {
 	// If OK -> queue
 	// ELSE -> responce bad request, please check your sms.
 	if !checkPhone(sms.Phone) {
-		handler.ResponJSON(w, http.StatusBadRequest, "Please, check your telephone number.")
+		resp.Text = "Please, check your telephone number."
+		handler.ResponJSON(w, http.StatusBadRequest, resp)
 		return
 	}
 	if !checkMessage(sms.Text) {
-		handler.ResponJSON(w, http.StatusBadRequest, "Please, check your message text lenght.")
+		resp.Text = "Please, check your sms text."
+		handler.ResponJSON(w, http.StatusBadRequest, resp)
 		return
 	}
 
 	// Put new sms into queue
 	c.publisher.Push(smsBytes)
-	// We put into queue, but has checked all params.
-	handler.ResponJSON(w, http.StatusOK, "Add to database!")
+	// We have put into queue, but has checked all params.
+	resp.Text = "Add to database!"
+
+	handler.ResponJSON(w, http.StatusOK, resp)
 	return
 }
 
 // Check sms: phone number and message text.
 // Lenght and corrent phone with regular expression.
 func checkMessage(text string) bool {
-	if len(text) > 254 || len(text) == 0 {
+	if len(text) > 255 || len(text) == 0 {
 		fmt.Println(len(text))
-		return false
+		return true
 	}
 
 	return true

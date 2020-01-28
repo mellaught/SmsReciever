@@ -28,3 +28,8 @@ type SMSReq struct {
 	Phone string `json:"phone"` // telephone number, for instance: +79995341054
 	Text  string `json:"text"`  // Simple text
 }
+
+// Responce for API method /sms
+type SMSResp struct {
+	Text string `json:"text"` // Responce message.
+}
