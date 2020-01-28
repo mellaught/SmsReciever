@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/mrKitikat/SmsReciever/src/app/models"
+	"github.com/mellaught/SmsReciever/src/app/models"
 	"fmt"
 	"strings"
 

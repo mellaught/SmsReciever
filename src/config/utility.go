@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/mrKitikat/SmsReciever/src/app/models"
+	"github.com/mellaught/SmsReciever/src/app/models"
 )
 
 // Reads AMQP params from config.json

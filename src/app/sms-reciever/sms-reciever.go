@@ -67,7 +67,7 @@ func (c *Reciever) PutSMS(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if !checkMessage(sms.Text) {
-		resp.Text = "Please, check your sms text."
+		resp.Text = "Please, check your sms text. Max lenght equals 255 symbols."
 		handler.ResponJSON(w, http.StatusBadRequest, resp)
 		return
 	}

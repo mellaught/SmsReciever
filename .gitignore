@@ -1,2 +1,3 @@
 src/config.json
 src/app/database/databasePassforTest.go
+vendor
