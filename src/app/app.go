@@ -13,7 +13,7 @@ import (
 
 type App struct {
 	Router *mux.Router
-	Rcvr   *reciever.Reciever
+	rcvr   *reciever.Reciever
 }
 
 // InitService is initializes the app.
@@ -21,12 +21,11 @@ func NewApp(dbsql *sql.DB, conn *amqp.Connection, name string) *App {
 
 	a := App{
 		Router: mux.NewRouter(),
-		Rcvr:   reciever.NewReciever(conn, name, dbsql),
+		rcvr:   &reciever.Reciever{}, // Create Reciever and run consumer.
 	}
 
 	a.Router = mux.NewRouter()
-	// Start reciever
-	a.Rcvr.Run()
+	a.rcvr = reciever.NewReciever(dbsql, conn, name)
 	// Set routers
 	a.setRouters()
 
@@ -40,7 +39,7 @@ func (a *App) Post(path string, f func(w http.ResponseWriter, r *http.Request)) 
 
 func (a *App) setRouters() {
 	// Routing for handling the put sms for user.
-	a.Post("/sms", a.Rcvr.PutSMS)
+	a.Post("/sms", a.rcvr.PutSMS)
 }
 
 // Run the app on it's router

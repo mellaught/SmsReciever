@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/mellaught/SmsReciever/src/app"
-	"github.com/mellaught/SmsReciever/src/config"
 	"database/sql"
 	"fmt"
 	"log"
+
+	"github.com/mellaught/SmsReciever/src/app"
+	"github.com/mellaught/SmsReciever/src/config"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/streadway/amqp"
@@ -14,15 +15,15 @@ import (
 func main() {
 
 	cfg := config.NewViperConfig()
-	
+
 	// Read config.json
 	serverConfig := cfg.ReadServerConfig()
 	dbConfig := cfg.ReadDBConfig()
 	amqpConfig := cfg.ReadAMQPConfig()
 
-	// Set DataBase 
-	
-	dataSourseName := "user=" + dbConfig.DBUser + " " + "DBname=" + dbConfig.DBName + " " + "password=" + dbConfig.DBPassword + " " + "sslmode=disable"
+	// Set DataBase
+
+	dataSourseName := "user=" + dbConfig.DBUser + " " + "dbname=" + dbConfig.DBName + " " + "password=" + dbConfig.DBPassword + " " + "sslmode=disable"
 	db, err := sql.Open(dbConfig.DBDriver, dataSourseName)
 	if err != nil {
 		log.Fatal(err)
@@ -38,6 +39,6 @@ func main() {
 
 	// Create App with default params from config.json
 	app := app.NewApp(db, conn, amqpConfig.QueueName)
-	fmt.Println("App has started.")
+	log.Println("App has started.")
 	app.Run(serverConfig.ServerHost + ":" + serverConfig.ServerPort)
 }

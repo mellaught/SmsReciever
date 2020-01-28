@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 
 	"github.com/mellaught/SmsReciever/src/app/models"
@@ -44,12 +43,11 @@ func (d *DataBase) PutSMS(sms *models.SMSReq) error {
 		return err
 	}
 	defer stmt.Close()
-	
-	res, err := stmt.Exec(sms.Phone, sms.Text)
+
+	_, err = stmt.Exec(sms.Phone, sms.Text)
 	if err != nil {
 		return err
 	}
-	fmt.Println(res)
 
 	commitTx = true
 	return nil
@@ -61,12 +59,12 @@ func CloseTransaction(tx *sql.Tx, commit *bool) {
 	if *commit {
 		log.Println("Commit sql transaction")
 		if err := tx.Commit(); err != nil {
-			log.Panic(err)
+			log.Println(err)
 		}
 	} else {
 		log.Println("Rollback sql transcation")
 		if err := tx.Rollback(); err != nil {
-			log.Panic(err)
+			log.Println(err)
 		}
 	}
 }
